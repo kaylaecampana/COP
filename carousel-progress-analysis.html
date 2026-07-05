@@ -1,0 +1,673 @@
+<title>A Great Big Beautiful Yesterday — Carousel of Progress, textually analyzed</title>
+<style>
+  :root{
+    /* light: cool lavender-white, indigo-plum ink, teal/purple/gold/rose accents */
+    --bg: #f5f2fb;
+    --bg-raised: #ffffff;
+    --bg-sunken: #e9e4f4;
+    --text: #2c2649;
+    --text-dim: #6a6389;
+    --hairline: rgba(44,38,73,.16);
+    --brass: #9a7714;
+    --brass-strong: #7a5d0e;
+    --act1: #b28513;   /* gold */
+    --act2: #16938c;   /* teal */
+    --act3: #7a4fc2;   /* purple */
+    --act4: #c14e8e;   /* rose */
+    --accent: var(--act1);
+    --shadow: 0 18px 40px -22px rgba(44,38,73,.32);
+    --font-display: "Avenir Next", "Century Gothic", "Futura", "Segoe UI", sans-serif;
+    --font-body: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --font-utility: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      /* dark: deep indigo-plum ground so pastels glow */
+      --bg: #201d34;
+      --bg-raised: #2c2848;
+      --bg-sunken: #161327;
+      --text: #f4eefb;
+      --text-dim: #b3accc;
+      --hairline: rgba(244,238,251,.16);
+      --brass: #f4cf6a;
+      --brass-strong: #ffdd85;
+      --act1: #f2cd6b;   /* pastel gold */
+      --act2: #63d6cf;   /* pastel teal */
+      --act3: #b592f0;   /* pastel purple */
+      --act4: #f088bb;   /* pastel rose */
+      --shadow: 0 18px 44px -20px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #201d34; --bg-raised: #2c2848; --bg-sunken: #161327;
+    --text: #f4eefb; --text-dim: #b3accc; --hairline: rgba(244,238,251,.16);
+    --brass: #f4cf6a; --brass-strong: #ffdd85;
+    --act1: #f2cd6b; --act2: #63d6cf; --act3: #b592f0; --act4: #f088bb;
+    --shadow: 0 18px 44px -20px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"]{
+    --bg: #f5f2fb; --bg-raised: #ffffff; --bg-sunken: #e9e4f4;
+    --text: #2c2649; --text-dim: #6a6389; --hairline: rgba(44,38,73,.16);
+    --brass: #9a7714; --brass-strong: #7a5d0e;
+    --act1: #b28513; --act2: #16938c; --act3: #7a4fc2; --act4: #c14e8e;
+    --shadow: 0 18px 40px -22px rgba(44,38,73,.32);
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 64px) 24px 80px;
+  }
+  .eyebrow{
+    font-family: var(--font-utility);
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 .9em;
+    transition: color .4s ease;
+  }
+  h1,h2,h3{
+    font-family: var(--font-display);
+    text-wrap: balance;
+    margin: 0 0 .4em;
+    font-weight: 700;
+  }
+  h1{
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    letter-spacing: -.01em;
+    line-height: 1.05;
+  }
+  h2{
+    font-size: clamp(1.4rem, 3.4vw, 1.8rem);
+    letter-spacing: -.005em;
+  }
+  h3{ font-size: 1.05rem; }
+  .lede{
+    max-width: 62ch;
+    color: var(--text-dim);
+    font-size: 1.12rem;
+    margin: 0 0 1.6em;
+  }
+  p{ max-width: 66ch; }
+  .hero p.lede{ max-width: 58ch; }
+
+  /* ---- switch control ---- */
+  .shift-control{
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 18px 10px 10px;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    margin-bottom: clamp(32px, 6vw, 56px);
+  }
+  .switch{
+    position: relative;
+    width: 46px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--bg-sunken);
+    border: 1px solid var(--hairline);
+    flex: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    outline-offset: 3px;
+  }
+  .switch::after{
+    content:"";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--brass);
+    transition: transform .35s cubic-bezier(.65,.05,.36,1);
+  }
+  .switch:checked{ background: color-mix(in srgb, var(--accent) 35%, var(--bg-sunken)); }
+  .switch:checked::after{ transform: translateX(20px); background: var(--accent); }
+  .switch-label{ font-size: .92rem; }
+  .switch-label strong{ font-family: var(--font-display); }
+  .switch-hint{
+    font-family: var(--font-utility);
+    font-size: .68rem;
+    letter-spacing: .06em;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ---- wheel ---- */
+  .wheel-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: clamp(48px, 8vw, 72px);
+  }
+  .wheel-stage{
+    --stage-r: 128px;
+    position: relative;
+    width: calc(var(--stage-r) * 2 + 96px);
+    height: calc(var(--stage-r) * 2 + 96px);
+    max-width: 90vw;
+    max-height: 90vw;
+  }
+  @media (max-width: 480px){
+    .wheel-stage{ --stage-r: 96px; }
+  }
+  .wheel-track{
+    position: absolute;
+    inset: 48px;
+    border-radius: 50%;
+    border: 1px dashed var(--hairline);
+  }
+  .pointer{
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 3px;
+    height: var(--stage-r);
+    background: linear-gradient(to top, var(--accent), transparent 88%);
+    transform-origin: 50% 100%;
+    transform: translate(-50%,-100%) rotate(var(--pointer-angle, 0deg));
+    transition: transform .6s cubic-bezier(.65,.05,.36,1), background .4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hub{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 92px; height: 92px;
+    border-radius: 50%;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+    z-index: 2;
+  }
+  .hub-label{
+    font-family: var(--font-utility);
+    font-size: .58rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hub-year{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--accent);
+    transition: color .4s ease;
+  }
+  .stage-btn{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--stage-r))) rotate(calc(var(--angle) * -1));
+    width: 108px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 6px;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    cursor: pointer;
+    color: var(--text);
+    font-family: var(--font-body);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: border-color .3s ease, transform .3s ease;
+    z-index: 2;
+  }
+  .stage-btn:hover{ transform: translate(-50%,-50%) rotate(var(--angle)) translateY(calc(-1 * var(--stage-r))) rotate(calc(var(--angle) * -1)) scale(1.04); }
+  .stage-btn:focus-visible{ outline: 2px solid var(--brass); }
+  .stage-btn.active{
+    border-color: var(--act-color, var(--brass));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--act-color, var(--brass)) 30%, transparent), var(--shadow);
+  }
+  .stage-num{
+    font-family: var(--font-utility);
+    font-size: .68rem;
+    letter-spacing: .08em;
+    color: var(--act-color, var(--text-dim));
+  }
+  .stage-name{ font-size: .82rem; font-weight: 600; line-height: 1.15; }
+  .stage-year{ font-family: var(--font-utility); font-size: .68rem; color: var(--text-dim); }
+
+  .detail-card{
+    width: 100%;
+    max-width: 520px;
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--accent);
+    transition: border-color .4s ease;
+  }
+  .detail-card .dc-year{
+    font-family: var(--font-utility);
+    font-size: .74rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: color .4s ease;
+  }
+  .detail-card h3{ margin: .25em 0 .7em; }
+  .dc-row{ display: flex; gap: 10px; margin: .5em 0; align-items: baseline; }
+  .dc-tag{
+    flex: none;
+    font-family: var(--font-utility);
+    font-size: .66rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    width: 76px;
+  }
+  .dc-row p{ margin: 0; font-size: .96rem; }
+  .dc-quote{
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px dashed var(--hairline);
+    font-style: italic;
+    font-size: .98rem;
+  }
+  .dc-quote cite{ display:block; font-style:normal; font-family: var(--font-utility); font-size:.7rem; color: var(--text-dim); margin-top:.4em; }
+
+  /* ---- generic sections ---- */
+  .section{ margin-bottom: clamp(48px, 8vw, 76px); }
+  .section + .section{ padding-top: clamp(40px, 7vw, 60px); border-top: 1px solid var(--hairline); }
+
+  /* timeline */
+  .timeline{
+    display: flex;
+    width: 100%;
+    height: 54px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.4em 0 .6em;
+    font-family: var(--font-utility);
+  }
+  .tl-seg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .68rem;
+    letter-spacing: .04em;
+    color: var(--bg);
+    position: relative;
+  }
+  .tl-seg.frozen{
+    background: repeating-linear-gradient(135deg, var(--bg-sunken), var(--bg-sunken) 8px, var(--bg-raised) 8px, var(--bg-raised) 16px);
+    color: var(--text-dim);
+    border: 1px dashed var(--hairline);
+  }
+  .tl-caption{
+    display:flex; justify-content: space-between;
+    font-family: var(--font-utility);
+    font-size: .66rem;
+    color: var(--text-dim);
+    margin-bottom: 1.6em;
+  }
+  .stat-callout{
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    background: var(--bg-raised);
+    border-left: 3px solid var(--act4);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 1.4em 0;
+    box-shadow: var(--shadow);
+  }
+  .stat-num{
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--act4);
+    line-height: 1;
+  }
+  .stat-callout p{ margin:0; font-size: .95rem; color: var(--text-dim); }
+
+  /* cast grid */
+  .cast-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 14px;
+    margin-top: 1.4em;
+  }
+  .cast-card{
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .cast-card h3{ margin-bottom: .3em; font-size: .98rem; }
+  .cast-role{
+    font-family: var(--font-utility);
+    font-size: .64rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display:block;
+    margin-bottom: .5em;
+  }
+  .cast-card p{ font-size: .88rem; margin: 0; color: var(--text-dim); max-width: none; }
+
+  /* gags */
+  .gag-list{ margin-top: 1.4em; display: flex; flex-direction: column; gap: 10px; }
+  details.gag{
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  details.gag summary{
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: .96rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    list-style: none;
+  }
+  details.gag summary::-webkit-details-marker{ display:none; }
+  .gag-dots{ display:flex; gap: 5px; flex: none; }
+  .gag-dot{
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--hairline);
+  }
+  .gag-dot.on{ background: var(--brass); }
+  details.gag[open] summary{ margin-bottom: 10px; }
+  .gag-body{ font-size: .92rem; color: var(--text-dim); }
+  .gag-body span{ display:block; margin-top:.4em; font-style: italic; }
+
+  /* shift section */
+  .shift-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 1.4em 0;
+  }
+  .shift-card{
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+    border-top: 3px solid var(--card-accent, var(--brass));
+  }
+  .shift-old{ font-family: var(--font-utility); font-size: .74rem; color: var(--text-dim); }
+  .shift-arrow{ color: var(--text-dim); margin: 2px 0; font-size: .8rem; }
+  .shift-new{ font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--card-accent, var(--brass)); }
+
+  .colophon{
+    margin-top: clamp(48px, 8vw, 76px);
+    padding-top: 28px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-utility);
+    font-size: .78rem;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .pointer, .stage-btn, .switch::after{ transition: none !important; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">Textual Analysis — recorded closing night, July 5 2026</p>
+    <h1>A Great Big Beautiful Yesterday</h1>
+    <p class="lede">Walt Disney's <em>Carousel of Progress</em> spent sixty‑two years telling audiences that tomorrow is always a dream away. Today the theater stops turning — for a rewrite that will move the whole show sixty years down the calendar. Before it does, here is what the current script is actually built from, room by room.</p>
+
+    <label class="shift-control" for="shiftToggle">
+      <input type="checkbox" id="shiftToggle" class="switch" aria-describedby="shiftHint">
+      <span class="switch-label">
+        <strong>Apply the 60‑year update</strong>
+        <span class="switch-hint" id="shiftHint">Moves every era forward — try it on the wheel</span>
+      </span>
+    </label>
+  </header>
+
+  <section class="wheel-section" aria-label="Interactive stage selector">
+    <div class="wheel-stage">
+      <div class="wheel-track"></div>
+      <div class="pointer" id="pointer"></div>
+      <div class="hub">
+        <span class="hub-label">Now on stage</span>
+        <span class="hub-year" id="hubYear" data-year="1900s" data-shift="1960s">1900s</span>
+      </div>
+
+      <button class="stage-btn" style="--angle:0deg" data-index="0" aria-pressed="true">
+        <span class="stage-num">Act I</span>
+        <span class="stage-name">Turn of the Century</span>
+        <span class="stage-year" data-year="1900s" data-shift="1960s">1900s</span>
+      </button>
+      <button class="stage-btn" style="--angle:90deg" data-index="1" aria-pressed="false">
+        <span class="stage-num">Act II</span>
+        <span class="stage-name">The Fourth of July</span>
+        <span class="stage-year" data-year="1920s" data-shift="1980s">1920s</span>
+      </button>
+      <button class="stage-btn" style="--angle:180deg" data-index="2" aria-pressed="false">
+        <span class="stage-num">Act III</span>
+        <span class="stage-name">The Fabulous Forties</span>
+        <span class="stage-year" data-year="1940s" data-shift="2000s">1940s</span>
+      </button>
+      <button class="stage-btn" style="--angle:270deg" data-index="3" aria-pressed="false">
+        <span class="stage-num">Act IV</span>
+        <span class="stage-name">"Modern Day"</span>
+        <span class="stage-year" data-year="mid-1990s" data-shift="mid-2050s">mid-1990s</span>
+      </button>
+    </div>
+
+    <div class="detail-card" id="detailCard">
+      <!-- populated by script; static fallback below -->
+      <p class="dc-year" data-year="1900s" data-shift="1960s">1900s · Valentine's Day</p>
+      <h3>Gas Lamps, a Pump, and a Rumor About Two Brothers From Carolina</h3>
+      <div class="dc-row"><span class="dc-tag">Marvel</span><p>A kitchen water pump replacing the well; talk of Edison's "snap‑on" electric light.</p></div>
+      <div class="dc-row"><span class="dc-tag">Mishap</span><p>Sarah's laundry gets caught on the line in a sudden thunderstorm — John's lumbago said it wouldn't rain.</p></div>
+      <p class="dc-quote">"Electric lights? No more kerosene! No more gas!"<cite>— Sarah</cite></p>
+    </div>
+  </section>
+
+  <section class="section timeline-section">
+    <p class="eyebrow">01 · Structure</p>
+    <h2>The Uneven Clock</h2>
+    <p>Three of the show's four time jumps are a tidy twenty years — one generation per act. The last jump breaks the pattern, and the show never corrected it.</p>
+    <div class="timeline">
+      <div class="tl-seg" style="flex:20; background:var(--act1);">1900s</div>
+      <div class="tl-seg" style="flex:20; background:var(--act2);">1920s</div>
+      <div class="tl-seg" style="flex:50; background:var(--act3);">1940s</div>
+      <div class="tl-seg frozen" style="flex:32;">1994 → 2026, unchanged</div>
+    </div>
+    <div class="tl-caption"><span>1900</span><span>1920</span><span>1940</span><span>1994</span><span>2026</span></div>
+    <p>The book was built to advance a generation at a time. It stalled exactly where technology stopped being predictable — computing, the internet, mobile, AI — and "modern day" quietly became a fixed costume instead of a moving target.</p>
+  </section>
+
+  <section class="section cast-section">
+    <p class="eyebrow">02 · Character</p>
+    <h2>One Family, Every Decade</h2>
+    <p>The cast doesn't age or develop — only the appliances around them do. Holding personality constant is what lets the show isolate "progress" as the only variable. Sarah is the one exception worth noting.</p>
+    <div class="cast-grid">
+      <div class="cast-card"><h3>John</h3><span class="cast-role">Narrator · Host</span><p>Enthusiastic about every marvel, usually a half-step behind his own household. The one constant voice across all four rooms.</p></div>
+      <div class="cast-card"><h3>Sarah</h3><span class="cast-role">The competent one</span><p>Goes from hand-laundry and canning to sewing and event-planning to renovation to writing the family's voice-activation code — the only character who visibly changes with the century.</p></div>
+      <div class="cast-card"><h3>Jimmy</h3><span class="cast-role">The kid ahead of dad</span><p>Always the first to master whatever just arrived — stereoscope, record player, VR headset — years before John catches up.</p></div>
+      <div class="cast-card"><h3>Patricia</h3><span class="cast-role">Perpetual teenager</span><p>Negotiates modesty, boys, and curfews in whatever decade's terms — a Valentine's dance, a Fourth of July parade, a Halloween party.</p></div>
+      <div class="cast-card"><h3>Rover</h3><span class="cast-role">The barometer</span><p>Barks, growls, or howls on cue — a live reaction shot standing in for the audience.</p></div>
+      <div class="cast-card"><h3>Uncle Orville</h3><span class="cast-role">The interruption</span><p>Turns up in the bathroom in two different centuries with the exact same complaint, almost word for word.</p></div>
+    </div>
+  </section>
+
+  <section class="section gags-section">
+    <p class="eyebrow">03 · Comedy</p>
+    <h2>The Gags That Never Retire</h2>
+    <p>Three bits recur across the eras nearly verbatim. They're the connective tissue that sells "same family, different century" — open each one for where it lands.</p>
+    <div class="gag-list">
+      <details class="gag">
+        <summary>Power overload<span class="gag-dots"><span class="gag-dot"></span><span class="gag-dot on"></span><span class="gag-dot"></span><span class="gag-dot on"></span></span></summary>
+        <div class="gag-body">Absent in the 1900s (no grid yet). By the 1920s, John blows a fuse — and then the whole neighborhood. By the 1990s, the joke has simply changed voltage.<span>"Drat! That's the third one this week. I buy fuses by the case." / "Overload… overload…" — the oven, at 975°</span></div>
+      </details>
+      <details class="gag">
+        <summary>Rover reacts<span class="gag-dots"><span class="gag-dot on"></span><span class="gag-dot on"></span><span class="gag-dot on"></span><span class="gag-dot on"></span></span></summary>
+        <div class="gag-body">Present in all four rooms without fail — a bark, growl, or howl standing in for whatever the audience is thinking.<span>"Rover! Don't interrupt while Sarah's interrupting." (1920s)</span></div>
+      </details>
+      <details class="gag">
+        <summary>Uncle Orville, mid-bath<span class="gag-dots"><span class="gag-dot"></span><span class="gag-dot on"></span><span class="gag-dot"></span><span class="gag-dot on"></span></span></summary>
+        <div class="gag-body">The exact same line, delivered sixty-plus years apart, once indoor plumbing exists to make the joke possible at all.<span>"No privacy at all around this place!" — 1920s and again in the 1990s</span></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section frozen-section">
+    <p class="eyebrow">04 · The Problem</p>
+    <h2>The Present That Never Moved</h2>
+    <p>Every act follows the same beat: John boasts, the marvel briefly misfires, the family shrugs it off in a joke. That's the show's real argument — progress isn't flawless, it's just worth the inconvenience. Sarah says it outright: <em>"That's what they call progress, dear."</em></p>
+    <p>But that argument only lands if "modern day" keeps moving. It hasn't. The Christmas-in-the-'90s finale — VR goggles, a voice-activated oven, a laserdisc joke — has been billed as "now" since 1994.</p>
+    <div class="stat-callout">
+      <span class="stat-num">32</span>
+      <p>years the "modern day" act has been standing still, as of this closing-night script — longer than the gap between any two other acts in the show.</p>
+    </div>
+  </section>
+
+  <section class="section shift-section">
+    <p class="eyebrow">05 · What Closes Today Sets in Motion</p>
+    <h2>Turning the Wheel Forward 60 Years</h2>
+    <p>If the rewrite genuinely shifts every era by sixty years, three of the four rooms become period pieces the writers can research — the twentieth century already happened. The fourth room is the hard one.</p>
+    <div class="shift-grid">
+      <div class="shift-card" style="--card-accent: var(--act1);"><div class="shift-old">1900s</div><div class="shift-arrow">↓ 60 yrs</div><div class="shift-new">1960s</div></div>
+      <div class="shift-card" style="--card-accent: var(--act2);"><div class="shift-old">1920s</div><div class="shift-arrow">↓ 60 yrs</div><div class="shift-new">1980s</div></div>
+      <div class="shift-card" style="--card-accent: var(--act3);"><div class="shift-old">1940s</div><div class="shift-arrow">↓ 60 yrs</div><div class="shift-new">2000s</div></div>
+      <div class="shift-card" style="--card-accent: var(--act4);"><div class="shift-old">"Modern day," 1994</div><div class="shift-arrow">↓ 60 yrs</div><div class="shift-new">mid-2050s</div></div>
+    </div>
+    <p>Acts I–III just need new dressing on the same joke engine: boast, marvel, small misfire, song. Act IV stops being "the present" and becomes actual speculation — which changes its comedy. A stuck fuse is funny because the audience has lived it. A 2050s household failure has to be invented from nothing and still feel like a thing that happens to a family, not a warning label. That's the one problem this closing night doesn't solve — it just buys another few decades before someone has to solve it again.</p>
+  </section>
+
+  <footer class="colophon">
+    <span>Walt Disney's Carousel of Progress · 1964–2026</span>
+    <span>Have a great big beautiful day.</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var acts = [
+    {
+      angle: 0, accent: 'var(--act1)',
+      year: '1900s', yearShift: '1960s',
+      dcYear: '1900s · Valentine’s Day',
+      title: 'Gas Lamps, a Pump, and a Rumor About Two Brothers From Carolina',
+      marvel: 'A kitchen water pump replacing the well; talk of Edison’s “snap-on” electric light.',
+      mishap: 'Sarah’s laundry gets caught on the line in a sudden thunderstorm — John’s lumbago said it wouldn’t rain.',
+      quote: 'Electric lights? No more kerosene! No more gas!',
+      quoteBy: 'Sarah'
+    },
+    {
+      angle: 90, accent: 'var(--act2)',
+      year: '1920s', yearShift: '1980s',
+      dcYear: '1920s · The Fourth of July',
+      title: 'An Electric Starter, a House Full of “Servants,” and a Blown Fuse',
+      marvel: 'An electric car starter, a radio pulling in news from as far as Pittsburgh, indoor plumbing.',
+      mishap: 'John blows a fuse — then blows the whole neighborhood — while dressed as George Washington.',
+      quote: 'Every time he has company, he blows a fuse. And guess who always has to change it.',
+      quoteBy: 'Jimmy'
+    },
+    {
+      angle: 180, accent: 'var(--act3)',
+      year: '1940s', yearShift: '2000s',
+      dcYear: '1940s · Halloween',
+      title: 'Television, an Automatic Dishwasher, and a Ruined Rumpus Room',
+      marvel: 'A refrigerator, an automatic dishwasher, and a television John insists people will learn Latin from.',
+      mishap: 'John’s automatic paint-stirring machine spins out of control and splatters Sarah’s new rumpus room.',
+      quote: 'That’s what they call progress, dear.',
+      quoteBy: 'Sarah'
+    },
+    {
+      angle: 270, accent: 'var(--act4)',
+      year: 'mid-1990s', yearShift: 'mid-2050s',
+      dcYear: '“Modern day” · Christmas',
+      title: 'A Voice-Activated Oven, a VR Dogfight, and a Very Ambitious Grandma',
+      marvel: 'Voice-activated appliances and a virtual-reality space-combat game the whole family takes turns flying.',
+      mishap: 'Grandma’s winning streak accidentally cranks the smart oven to 975° and cremates the turkey.',
+      quote: 'Temperature increased to 975. Overload… overload…',
+      quoteBy: 'The oven'
+    }
+  ];
+
+  var shifted = false;
+  var current = 0;
+  var pointer = document.getElementById('pointer');
+  var hubYear = document.getElementById('hubYear');
+  var detailCard = document.getElementById('detailCard');
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.stage-btn'));
+  var toggle = document.getElementById('shiftToggle');
+
+  function displayYear(act){ return shifted ? act.yearShift : act.year; }
+
+  function renderDetail(act){
+    detailCard.style.borderTopColor = act.accent;
+    detailCard.innerHTML =
+      '<p class="dc-year" style="color:' + act.accent + '">' + act.dcYear.replace(/^[^·]+/, displayYear(act) + ' ') + '</p>' +
+      '<h3>' + act.title + '</h3>' +
+      '<div class="dc-row"><span class="dc-tag">Marvel</span><p>' + act.marvel + '</p></div>' +
+      '<div class="dc-row"><span class="dc-tag">Mishap</span><p>' + act.mishap + '</p></div>' +
+      '<p class="dc-quote">“' + act.quote + '”<cite>— ' + act.quoteBy + '</cite></p>';
+  }
+
+  function selectAct(i){
+    current = i;
+    var act = acts[i];
+    document.documentElement.style.setProperty('--accent', act.accent);
+    pointer.style.setProperty('--pointer-angle', act.angle + 'deg');
+    pointer.style.background = 'linear-gradient(to top, ' + act.accent + ', transparent 88%)';
+    hubYear.style.color = act.accent;
+    hubYear.textContent = displayYear(act);
+    buttons.forEach(function(btn, idx){
+      var isActive = idx === i;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      btn.style.setProperty('--act-color', acts[idx].accent);
+      var yearSpan = btn.querySelector('.stage-year');
+      yearSpan.textContent = displayYear(acts[idx]);
+    });
+    renderDetail(act);
+  }
+
+  buttons.forEach(function(btn, idx){
+    btn.addEventListener('click', function(){ selectAct(idx); });
+  });
+
+  toggle.addEventListener('change', function(){
+    shifted = toggle.checked;
+    document.body.classList.toggle('shifted', shifted);
+    selectAct(current);
+  });
+
+  selectAct(0);
+})();
+</script>
